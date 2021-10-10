@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+  media-display:
+    build:
+      context: .
+      args:
+        - STAGE=$STAGE
+    env_file: .env
+    devices:
+      - /dev/snd:/dev/snd
+    volumes:
+      - ./frontend:/frontend
+    ports:
+      - 443:443
+      - 1313:1313
+    restart: unless-stopped
