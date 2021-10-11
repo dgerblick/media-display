@@ -11,20 +11,19 @@ WORKDIR /frontend
 COPY frontend/package*.json ./
 RUN npm install --production
 COPY frontend/ ./
-RUN npm build
+RUN npm run build
 
-FROM debian:buster-slim as final-prod
+FROM node:lts-buster-slim as final-prod
 RUN apt update && \
-    apt install -y nginx && \
+    apt install -y nginx firefox-esr && \
     rm -rf /var/lib/apt/lists/*
 COPY --from=frontend-builder /frontend/build /usr/share/nginx/html
 
-FROM node:lts-buster-slim as final-dev
-WORKDIR /usr/src/frontend
-COPY frontend/package*.json ./
+FROM frontend-builder as final-dev
 RUN npm install
 
 FROM final-${STAGE} as final
+WORKDIR /
 RUN apt update && \
     apt install -y libasound2 && \
     rm -rf /var/lib/apt/lists/*

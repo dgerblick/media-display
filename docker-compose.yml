@@ -10,6 +10,10 @@ services:
       - /dev/snd:/dev/snd
     volumes:
       - ./frontend:/frontend
+      - /frontend/node_modules
+      - /frontend/build
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - $XAUTHORITY:/root/.Xauthority:ro
     ports:
       - 443:443
       - 1313:1313
