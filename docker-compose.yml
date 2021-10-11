@@ -5,7 +5,10 @@ services:
       context: .
       args:
         - STAGE=$STAGE
-    env_file: .env
+    environment:
+      - STAGE
+      - DISPLAY
+      - SPOTIFYD_ARGS
     devices:
       - /dev/snd:/dev/snd
     volumes:
